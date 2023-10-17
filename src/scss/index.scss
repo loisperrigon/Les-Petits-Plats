@@ -1,0 +1,144 @@
+@import 'style.scss';
+
+body {
+    header {
+        display: flex;
+        flex-direction: column;
+        background-image: url('../../assets/header/background.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 667px;
+
+        .logo {
+            padding-left: 69px;
+            padding-top: 51px;
+        }
+
+        .formulaire {
+            flex: 1;
+            /* Le formulaire prendra la hauteur restante du header */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            form {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                label {
+                    color: $quartiere-color-font;
+                    font-family: Anton;
+                    font-size: 44px;
+                    text-transform: uppercase;
+                    margin-bottom: 30px;
+                }
+
+                .input-icon {
+                    position: relative;
+
+                    input {
+                        width: 954px;
+                        height: 72px;
+                        flex-shrink: 0;
+                        border-radius: 11px;
+                        background-color: $primary-color-background;
+                    }
+
+                    .icon {
+                        background-color: $icone-formulaire-recherche-background;
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        right: 10px;
+                        width: 51px;
+                        height: 52px;
+                        border-radius: 10px;
+
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+
+    main {
+
+        background-color: $section-recettes-background;
+
+        .filtres {
+            display: flex;
+
+            section {
+                position: relative;
+                margin: 33px;
+
+
+                .liste-title {
+                    color: $secondary-color-font;
+                    width: 163px;
+                    padding: 16px;
+                    border: none;
+                    cursor: pointer;
+                    background-color: $primary-color-background;
+                    border-radius: 11px;
+                }
+
+                .liste-title-active {
+                    @extend .liste-title;
+                    border-radius: 11px 11px 0px 0px;
+                }
+
+                .liste {
+                    display: none;
+                }
+
+                .liste-active {
+                    display: block;
+                    position: absolute;
+                    padding: 0;
+                    z-index: 2;
+                    width: 163px;
+                    padding: 16px;
+                    background-color: $primary-color-background;
+
+                    .input-icon {
+                        position: relative;
+
+                        .icon {
+                            position: absolute;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            right: 10px;
+                            border-radius: 10px;
+
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            cursor: pointer;
+                        }
+                    }
+
+                    li {
+                        padding: 5px 10px;
+                        list-style-type: none;
+                        cursor: pointer;
+                    }
+
+                    li:hover {
+
+                        background-color: $quartiere-color-font;
+                    }
+                }
+
+
+            }
+
+
+        }
+    }
+}
