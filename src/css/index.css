@@ -134,3 +134,23 @@ body main .filtres section .liste-input-icon-active ul li span {
 body main .filtres section .liste-input-icon-active ul li:hover {
   background-color: #FFD15B;
 }
+body main .choixFiltres {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+}
+body main .choixFiltres div {
+  background-color: #FFD15B;
+  color: #1B1B1B;
+  margin: 10px;
+  height: 53px;
+  display: flex;
+  align-items: center;
+  padding-left: 18px;
+  border-radius: 10px;
+}
+body main .choixFiltres div span {
+  font-size: 14px;
+}

@@ -1,9 +1,12 @@
 class Filtre {
     constructor() {
         this.filtreDOM;
+        this.choixFiltresDOM = document.querySelector(".choixFiltres");
 
         this.elementsIDs = {};
         this.key;
+
+
     }
 
     key() {
@@ -37,6 +40,32 @@ class Filtre {
         return this.elementsIDs;
 
     }
+
+    updateElementFiltre(elementClick) {
+        for (let element in this.elementsIDs) {
+            // Remplacez 'blender' par le nom de l'élément que vous souhaitez supprimer
+            if (element === elementClick.toLowerCase()) {
+                delete this.elementsIDs[element]; // Supprimez l'élément spécifié par la variable
+                console.log(this.elementsIDs);
+                break;
+            }
+        }
+        this.filtreDOM.innerHTML = "";
+        this.template();
+    }
+
+    initEvenementClick(element) {
+        element.addEventListener('click', (event) => {
+            const div = document.createElement('div');
+            const span = document.createElement('span');
+            const clickedElement = event.currentTarget;
+            span.textContent = clickedElement.textContent;
+            div.append(span);
+            this.choixFiltresDOM.append(div);
+            this.updateElementFiltre(clickedElement.textContent);
+        });
+    }
+
     capitalizeFirstLetter(str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
@@ -44,10 +73,10 @@ class Filtre {
     template() {
         // Créez un élément <ul> (liste non ordonnée) pour contenir les éléments <li>
         for (let element in this.elementsIDs) {
+
             const li = document.createElement('li');
-
             li.textContent = this.capitalizeFirstLetter(element);
-
+            this.initEvenementClick(li);
             // Ajoutez l'élément <li> à la liste <ul>
             this.filtreDOM.appendChild(li);
         }

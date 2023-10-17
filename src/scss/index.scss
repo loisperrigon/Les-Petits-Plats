@@ -168,6 +168,30 @@ body {
 
         }
 
-        .filtres {}
+        .choixFiltres {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+            align-items: center;
+            justify-content: center;
+
+            margin: 10px;
+
+            div {
+                background-color: $secondary-color-background;
+                color: $secondary-color-font;
+                margin: 10px;
+                height: 53px;
+                display: flex;
+                align-items: center;
+                padding-left: 18px;
+                border-radius: 10px;
+
+                span {
+                    font-size: 14px;
+                }
+            }
+
+
+        }
     }
 }
