@@ -68,35 +68,45 @@ body main .filtres {
 body main .filtres section {
   position: relative;
   margin: 33px;
+  width: 195px;
 }
 body main .filtres section .liste-title, body main .filtres section .liste-title-active {
   color: #1B1B1B;
-  width: 163px;
-  padding: 16px;
   border: none;
   cursor: pointer;
-  background-color: #FFFFFF;
+  padding: 16px;
   border-radius: 11px;
+  background-color: #FFFFFF;
 }
 body main .filtres section .liste-title-active {
-  border-radius: 11px 11px 0px 0px;
+  border-radius: 11px 11px 0 0;
 }
-body main .filtres section .liste {
+body main .filtres section .liste-input-icon {
   display: none;
 }
-body main .filtres section .liste-active {
+body main .filtres section .liste-input-icon-active {
   display: block;
   position: absolute;
-  padding: 0;
-  z-index: 2;
-  width: 163px;
-  padding: 16px;
   background-color: #FFFFFF;
+  border-radius: 0px 0px 11px 11px;
+  z-index: 2;
 }
-body main .filtres section .liste-active .input-icon {
+body main .filtres section .liste-input-icon-active .input-icon {
+  width: 163px;
+  height: 36px;
   position: relative;
+  padding: 0 16px 13px 16px;
 }
-body main .filtres section .liste-active .input-icon .icon {
+body main .filtres section .liste-input-icon-active .input-icon #recherche {
+  height: 100%;
+  width: 100%;
+  border-radius: 2px;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #7A7A7A;
+}
+body main .filtres section .liste-input-icon-active .input-icon .icon {
+  padding: 0 16px 13px 16px;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -107,11 +117,20 @@ body main .filtres section .liste-active .input-icon .icon {
   align-items: center;
   cursor: pointer;
 }
-body main .filtres section .liste-active li {
-  padding: 5px 10px;
+body main .filtres section .liste-input-icon-active ul {
   list-style-type: none;
+  padding: 0;
+}
+body main .filtres section .liste-input-icon-active ul li {
+  height: 19px;
+  padding: 7.5px 0 7.5px 13px;
+  display: flex;
+  align-items: center;
   cursor: pointer;
 }
-body main .filtres section .liste-active li:hover {
+body main .filtres section .liste-input-icon-active ul li span {
+  padding: 16px;
+}
+body main .filtres section .liste-input-icon-active ul li:hover {
   background-color: #FFD15B;
 }

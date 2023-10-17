@@ -76,40 +76,51 @@ body {
             section {
                 position: relative;
                 margin: 33px;
+                width: 195px;
 
 
                 .liste-title {
                     color: $secondary-color-font;
-                    width: 163px;
-                    padding: 16px;
                     border: none;
                     cursor: pointer;
-                    background-color: $primary-color-background;
+                    padding: 16px;
                     border-radius: 11px;
+                    background-color: $primary-color-background;
                 }
 
                 .liste-title-active {
                     @extend .liste-title;
-                    border-radius: 11px 11px 0px 0px;
+                    border-radius: 11px 11px 0 0;
                 }
 
-                .liste {
+                .liste-input-icon {
                     display: none;
                 }
 
-                .liste-active {
+                .liste-input-icon-active {
                     display: block;
                     position: absolute;
-                    padding: 0;
-                    z-index: 2;
-                    width: 163px;
-                    padding: 16px;
                     background-color: $primary-color-background;
+                    border-radius: 0px 0px 11px 11px;
+                    z-index: 2;
 
                     .input-icon {
+                        width: 163px;
+                        height: 36px;
                         position: relative;
+                        padding: 0 16px 13px 16px;
+
+                        #recherche {
+                            height: 100%;
+                            width: 100%;
+                            border-radius: 2px;
+                            padding: 0;
+                            margin: 0;
+                            border: 1px solid #7A7A7A;
+                        }
 
                         .icon {
+                            padding: 0 16px 13px 16px;
                             position: absolute;
                             top: 50%;
                             transform: translateY(-50%);
@@ -123,22 +134,40 @@ body {
                         }
                     }
 
-                    li {
-                        padding: 5px 10px;
+                    ul {
                         list-style-type: none;
-                        cursor: pointer;
-                    }
+                        padding: 0;
 
-                    li:hover {
+                        li {
+                            height: 19px;
+                            padding: 7.5px 0 7.5px 13px;
+                            display: flex;
+                            align-items: center;
+                            cursor: pointer;
 
-                        background-color: $quartiere-color-font;
+
+
+                            span {
+                                padding: 16px;
+                            }
+
+                        }
+
+                        li:hover {
+                            background-color: $secondary-color-background;
+                        }
                     }
                 }
+
+
+
 
 
             }
 
 
         }
+
+        .filtres {}
     }
 }
