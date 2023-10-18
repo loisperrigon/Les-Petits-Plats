@@ -1,3 +1,8 @@
+import FiltresManager from '../classes/FiltresManager.js';
+
+var filtresManager = new FiltresManager();
+
+
 class Filtre {
     constructor() {
         this.filtreDOM;
@@ -39,49 +44,6 @@ class Filtre {
 
         return this.elementsIDs;
 
-    }
-
-    updateElementFiltre(elementClick) {
-        for (let element in this.elementsIDs) {
-            // Remplacez 'blender' par le nom de l'élément que vous souhaitez supprimer
-            if (element === elementClick.toLowerCase()) {
-                delete this.elementsIDs[element]; // Supprimez l'élément spécifié par la variable
-                console.log(this.elementsIDs);
-                break;
-            }
-        }
-        this.filtreDOM.innerHTML = "";
-        this.template();
-    }
-
-    initEvenementClick(element) {
-        element.addEventListener('click', (event) => {
-            const div = document.createElement('div');
-            const span = document.createElement('span');
-            const clickedElement = event.currentTarget;
-            span.textContent = clickedElement.textContent;
-            div.append(span);
-            this.choixFiltresDOM.append(div);
-            this.updateElementFiltre(clickedElement.textContent);
-        });
-    }
-
-    capitalizeFirstLetter(str) {
-        return str.charAt(0).toUpperCase() + str.slice(1);
-    }
-
-    template() {
-        // Créez un élément <ul> (liste non ordonnée) pour contenir les éléments <li>
-        for (let element in this.elementsIDs) {
-
-            const li = document.createElement('li');
-            li.textContent = this.capitalizeFirstLetter(element);
-            this.initEvenementClick(li);
-            // Ajoutez l'élément <li> à la liste <ul>
-            this.filtreDOM.appendChild(li);
-        }
-
-        // Retournez l'élément <ul> complet
     }
 
 }
@@ -126,13 +88,75 @@ export default class FiltreFactory {
     createFiltre(type) {
         switch (type) {
             case "ingredients":
-                return new IngredientsFiltre();
+                var ingredientsFiltre = new IngredientsFiltre();
+                filtresManager.setFiltre(ingredientsFiltre);
+                return ingredientsFiltre;
             case "appareils":
-                return new AppareilsFiltre();
+                var appareilsFiltre = new AppareilsFiltre();
+                filtresManager.setFiltre(appareilsFiltre);
+                return appareilsFiltre;
             case "ustensils":
-                return new UstensilsFiltre();
+                var ustensilsFiltre = new UstensilsFiltre();
+                filtresManager.setFiltre(ustensilsFiltre);
+                return ustensilsFiltre;
             default:
-                throw new Error("Type de modèle Filtre.");
+                throw new Error("Type de modèle inconnu.");
         }
     }
+
+    capitalizeFirstLetter(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+
+    templateFiltre() {
+
+        filtresManager.filtres.forEach(filtre => {
+            // Créez un élément <ul> (liste non ordonnée) pour contenir les éléments <li>
+            filtre.filtreDOM.innerHTML = ""; // on renitialise le DOM HTML
+
+            for (let element in filtre.elementsIDs) {
+                const li = document.createElement('li');
+                li.textContent = this.capitalizeFirstLetter(element);
+                this.initEvenementClick(li, filtre);
+                // Ajoutez l'élément <li> à la liste <ul>
+                filtre.filtreDOM.appendChild(li);
+            }
+
+            // Retournez l'élément <ul> complet
+        });
+        // Créez un élément <ul> (liste non ordonnée) pour contenir les éléments <li>
+
+    }
+    evenementClose(close, element, nomElement) {
+        close.addEventListener('click', (event) => {
+            element.parentNode.removeChild(element);
+            filtresManager.closeFiltre(nomElement);
+            this.templateFiltre();
+        }
+        );
+    }
+
+
+    initEvenementClick(element, filtre) {
+        element.addEventListener('click', (event) => {
+            const div = document.createElement('div');
+            const divClose = document.createElement('div');
+            const i = document.createElement('i');
+            i.classList.add('fa-solid', 'fa-xmark');
+            const span = document.createElement('span');
+            const clickedElement = event.currentTarget;
+            span.textContent = clickedElement.textContent;
+            div.append(span);
+            divClose.append(i);
+
+            this.evenementClose(divClose, div, clickedElement.textContent);
+            div.append(divClose);
+            filtre.choixFiltresDOM.append(div);
+            filtresManager.update(clickedElement.textContent, filtre);
+            this.templateFiltre();
+        });
+    }
+
 }
+

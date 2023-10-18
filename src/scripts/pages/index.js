@@ -6,9 +6,8 @@ import { recipes } from '../../../data/recipes.js'; // Import de la variable qui
 const filtreFactory = new FiltreFactory();
 
 //Filtres
-var ingredientsFiltre;
-var appareilsFiltre;
-var ustensilesFiltre;
+var tabFiltres = [];
+
 
 document.querySelectorAll(".liste-title").forEach((title) => {
     title.addEventListener("click", () => {
@@ -35,16 +34,15 @@ function initData() {
 
 function initfiltres(recettes) {
 
-    ingredientsFiltre = filtreFactory.createFiltre('ingredients')
-    ingredientsFiltre.render(recettes)
-    appareilsFiltre = filtreFactory.createFiltre('appareils')
-    appareilsFiltre.render(recettes)
-    ustensilesFiltre = filtreFactory.createFiltre('ustensils')
-    ustensilesFiltre.render(recettes)
+    tabFiltres.push(filtreFactory.createFiltre('ingredients'));
+    tabFiltres.push(filtreFactory.createFiltre('appareils'));
+    tabFiltres.push(filtreFactory.createFiltre('ustensils'));
 
-    ingredientsFiltre.template();
-    appareilsFiltre.template();
-    ustensilesFiltre.template();
+    tabFiltres.forEach((filtre) => {
+        filtre.render(recettes)
+    });
+    filtreFactory.templateFiltre();
+
 }
 
 
