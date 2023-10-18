@@ -123,7 +123,7 @@ class UstensilsFiltre extends Filtre {
 }
 
 export default class FiltreFactory {
-    createFiltre(type, recette) {
+    createFiltre(type) {
         switch (type) {
             case "ingredients":
                 return new IngredientsFiltre();
@@ -132,7 +132,7 @@ export default class FiltreFactory {
             case "ustensils":
                 return new UstensilsFiltre();
             default:
-                throw new Error("Type de modèle inconnu.");
+                throw new Error("Type de modèle Filtre.");
         }
     }
 }
