@@ -70,104 +70,127 @@ body {
 
         background-color: $section-recettes-background;
 
-        .filtres {
+        .filtrestotalRecettes {
+            width: 100%;
             display: flex;
+            justify-content: space-between;
+            align-items: center;
 
-            section {
-                position: relative;
-                margin: 33px;
-                width: 195px;
+            .filtres {
+                display: flex;
 
 
-                .liste-title {
-                    color: $secondary-color-font;
-                    border: none;
-                    cursor: pointer;
-                    padding: 16px;
-                    border-radius: 11px;
-                    background-color: $primary-color-background;
-                }
+                section {
+                    position: relative;
+                    margin: 33px;
+                    width: 195px;
 
-                .liste-title-active {
-                    @extend .liste-title;
-                    border-radius: 11px 11px 0 0;
-                }
 
-                .liste-input-icon {
-                    display: none;
-                }
-
-                .liste-input-icon-active {
-                    display: block;
-                    position: absolute;
-                    background-color: $primary-color-background;
-                    border-radius: 0px 0px 11px 11px;
-                    z-index: 2;
-
-                    .input-icon {
-                        width: 163px;
-                        height: 36px;
-                        position: relative;
-                        padding: 0 16px 13px 16px;
-
-                        #recherche {
-                            height: 100%;
-                            width: 100%;
-                            border-radius: 2px;
-                            padding: 0;
-                            margin: 0;
-                            border: 1px solid #7A7A7A;
-                        }
-
-                        .icon {
-                            padding: 0 16px 13px 16px;
-                            position: absolute;
-                            top: 50%;
-                            transform: translateY(-50%);
-                            right: 10px;
-                            border-radius: 10px;
-
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            cursor: pointer;
-                        }
+                    .liste-title {
+                        color: $secondary-color-font;
+                        border: none;
+                        cursor: pointer;
+                        padding: 16px;
+                        border-radius: 11px;
+                        background-color: $primary-color-background;
                     }
 
-                    ul {
-                        list-style-type: none;
-                        padding: 0;
-                        max-height: 200px;
+                    .liste-title-active {
+                        @extend .liste-title;
+                        border-radius: 11px 11px 0 0;
+                    }
 
-                        overflow-y: auto;
+                    .liste-input-icon {
+                        display: none;
+                    }
 
+                    .liste-input-icon-active {
+                        display: block;
+                        position: absolute;
+                        background-color: $primary-color-background;
+                        border-radius: 0px 0px 11px 11px;
+                        z-index: 2;
 
-                        li {
-                            height: 19px;
-                            padding: 7.5px 0 7.5px 13px;
-                            display: flex;
-                            align-items: center;
-                            cursor: pointer;
+                        .input-icon {
+                            width: 163px;
+                            height: 36px;
+                            position: relative;
+                            padding: 0 16px 13px 16px;
 
-                            span {
-                                padding: 16px;
+                            #recherche {
+                                height: 100%;
+                                width: 100%;
+                                border-radius: 2px;
+                                padding: 0;
+                                margin: 0;
+                                border: 1px solid #7A7A7A;
+                            }
+
+                            .icon {
+                                padding: 0 16px 13px 16px;
+                                position: absolute;
+                                top: 50%;
+                                transform: translateY(-50%);
+                                right: 10px;
+                                border-radius: 10px;
+
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                cursor: pointer;
                             }
                         }
 
-                        li:hover {
-                            background-color: $secondary-color-background;
+                        ul {
+                            list-style-type: none;
+                            padding: 0;
+                            max-height: 200px;
+
+                            overflow-y: auto;
+
+
+                            li {
+                                height: 19px;
+                                padding: 7.5px 0 7.5px 13px;
+                                display: flex;
+                                align-items: center;
+                                cursor: pointer;
+
+                                span {
+                                    padding: 16px;
+                                }
+                            }
+
+                            li:hover {
+                                background-color: $secondary-color-background;
+                            }
                         }
                     }
+
+
+
+
+
                 }
-
-
-
 
 
             }
 
+            .totalRecettes {
+                margin: 33px;
+
+                span {
+                    color: var(--Black, #1B1B1B);
+                    font-family: Anton;
+                    font-size: 21px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: normal;
+                }
+            }
 
         }
+
 
         .choixFiltres {
             display: grid;

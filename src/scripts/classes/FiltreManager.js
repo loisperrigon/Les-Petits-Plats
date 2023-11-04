@@ -4,7 +4,9 @@ export default class FiltreManager {
 
         this.FiltrePrincipalDOM = document.getElementById('recherchePrincipal');
         this.FiltrePrincipalDOM.addEventListener('input', () => {
-            this.rechercheFiltrePrincipal();
+
+            this.refreshPage();
+
         });
 
         this.filtresSecondaire = {};
@@ -31,6 +33,7 @@ export default class FiltreManager {
             this.renderFiltre(this.ingredientsFiltreDom, this.rechercheIngredientsDOM, 'ingredients');
         });
 
+        this.textTotalRecettesDom = document.querySelector(".textTotalRecettes");
 
         this.filtresActifDOM = document.querySelector(".choixFiltres");
 
@@ -68,25 +71,20 @@ export default class FiltreManager {
             }, []);
         }
 
-        const valeurChamp = this.FiltrePrincipalDOM.value;
-        let actifs = []
-        if (valeurChamp.length >= 3) {
+
+        let idrecettesactifs = []
+        if (this.FiltrePrincipalDOM.value.length >= 3) {
 
             this.idRecettesActifs.forEach(idRecette => {
-                if (this.recettes[idRecette].indexChaine.indexOf(valeurChamp.toLowerCase()) !== -1) {
-                    actifs.push(idRecette);
+                if (this.recettes[idRecette].indexChaine.indexOf(this.FiltrePrincipalDOM.value.toLowerCase()) !== -1) {
+                    idrecettesactifs.push(idRecette);
                 }
             });
 
-            this.idRecettesActifs = actifs;
+            this.idRecettesActifs = idrecettesactifs;
         }
-    }
 
-
-    rechercheFiltrePrincipal() {
-
-        this.refreshPage();
-
+        this.textTotalRecettesDom.textContent = this.idRecettesActifs.length + " Recettes"
     }
 
 

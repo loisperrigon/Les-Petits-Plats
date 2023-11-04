@@ -63,15 +63,21 @@ body header .formulaire form .input-icon .icon {
 body main {
   background-color: #EDEDED;
 }
-body main .filtres {
+body main .filtrestotalRecettes {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+body main .filtrestotalRecettes .filtres {
   display: flex;
 }
-body main .filtres section {
+body main .filtrestotalRecettes .filtres section {
   position: relative;
   margin: 33px;
   width: 195px;
 }
-body main .filtres section .liste-title, body main .filtres section .liste-title-active {
+body main .filtrestotalRecettes .filtres section .liste-title, body main .filtrestotalRecettes .filtres section .liste-title-active {
   color: #1B1B1B;
   border: none;
   cursor: pointer;
@@ -79,26 +85,26 @@ body main .filtres section .liste-title, body main .filtres section .liste-title
   border-radius: 11px;
   background-color: #FFFFFF;
 }
-body main .filtres section .liste-title-active {
+body main .filtrestotalRecettes .filtres section .liste-title-active {
   border-radius: 11px 11px 0 0;
 }
-body main .filtres section .liste-input-icon {
+body main .filtrestotalRecettes .filtres section .liste-input-icon {
   display: none;
 }
-body main .filtres section .liste-input-icon-active {
+body main .filtrestotalRecettes .filtres section .liste-input-icon-active {
   display: block;
   position: absolute;
   background-color: #FFFFFF;
   border-radius: 0px 0px 11px 11px;
   z-index: 2;
 }
-body main .filtres section .liste-input-icon-active .input-icon {
+body main .filtrestotalRecettes .filtres section .liste-input-icon-active .input-icon {
   width: 163px;
   height: 36px;
   position: relative;
   padding: 0 16px 13px 16px;
 }
-body main .filtres section .liste-input-icon-active .input-icon #recherche {
+body main .filtrestotalRecettes .filtres section .liste-input-icon-active .input-icon #recherche {
   height: 100%;
   width: 100%;
   border-radius: 2px;
@@ -106,7 +112,7 @@ body main .filtres section .liste-input-icon-active .input-icon #recherche {
   margin: 0;
   border: 1px solid #7A7A7A;
 }
-body main .filtres section .liste-input-icon-active .input-icon .icon {
+body main .filtrestotalRecettes .filtres section .liste-input-icon-active .input-icon .icon {
   padding: 0 16px 13px 16px;
   position: absolute;
   top: 50%;
@@ -118,24 +124,35 @@ body main .filtres section .liste-input-icon-active .input-icon .icon {
   align-items: center;
   cursor: pointer;
 }
-body main .filtres section .liste-input-icon-active ul {
+body main .filtrestotalRecettes .filtres section .liste-input-icon-active ul {
   list-style-type: none;
   padding: 0;
   max-height: 200px;
   overflow-y: auto;
 }
-body main .filtres section .liste-input-icon-active ul li {
+body main .filtrestotalRecettes .filtres section .liste-input-icon-active ul li {
   height: 19px;
   padding: 7.5px 0 7.5px 13px;
   display: flex;
   align-items: center;
   cursor: pointer;
 }
-body main .filtres section .liste-input-icon-active ul li span {
+body main .filtrestotalRecettes .filtres section .liste-input-icon-active ul li span {
   padding: 16px;
 }
-body main .filtres section .liste-input-icon-active ul li:hover {
+body main .filtrestotalRecettes .filtres section .liste-input-icon-active ul li:hover {
   background-color: #FFD15B;
+}
+body main .filtrestotalRecettes .totalRecettes {
+  margin: 33px;
+}
+body main .filtrestotalRecettes .totalRecettes span {
+  color: var(--Black, #1B1B1B);
+  font-family: Anton;
+  font-size: 21px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 body main .choixFiltres {
   display: grid;
