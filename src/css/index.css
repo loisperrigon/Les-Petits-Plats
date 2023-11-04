@@ -1,3 +1,4 @@
+@charset "UTF-8";
 * {
   font-family: Manrope, sans-serif;
   margin: 0px;
@@ -120,6 +121,8 @@ body main .filtres section .liste-input-icon-active .input-icon .icon {
 body main .filtres section .liste-input-icon-active ul {
   list-style-type: none;
   padding: 0;
+  max-height: 200px;
+  overflow-y: auto;
 }
 body main .filtres section .liste-input-icon-active ul li {
   height: 19px;
@@ -148,24 +151,100 @@ body main .choixFiltres div {
   height: 53px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding-left: 18px;
   border-radius: 10px;
 }
 body main .choixFiltres div span {
   font-size: 14px;
 }
+body main .choixFiltres div div {
+  cursor: pointer;
+}
 body main .recettes {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
   justify-content: center;
+  border-radius: 21px;
 }
 body main .recettes article {
-  margin: 24px;
+  margin: 21px;
+  border-radius: 21px;
+  height: 731px;
+  background-color: white;
 }
 body main .recettes article img {
+  border-radius: 21px 21px 0 0;
   width: 100%;
   height: 253px;
   -o-object-fit: cover;
      object-fit: cover;
+}
+body main .recettes article .containText {
+  box-sizing: border-box;
+  padding: 32px;
+  height: 478px;
+}
+body main .recettes article .containText h1 {
+  color: #000;
+  font-family: Anton;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-bottom: 29px;
+}
+body main .recettes article .containText h2 {
+  color: var(--Grey, #7A7A7A);
+  font-family: Manrope;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 1.08px;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+}
+body main .recettes article .containText .descriptionRecette {
+  height: 76px;
+  overflow: hidden;
+  margin-bottom: 32px;
+  line-height: 20px;
+  /* Hauteur de ligne souhaitée */
+  max-height: 80px;
+  /* 4 lignes de 20px chacune */
+}
+body main .recettes article .containText .descriptionRecette span {
+  color: var(--Black, #1B1B1B);
+  font-family: Manrope;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+body main .recettes article .containText .ingredients > * {
+  margin: 10px;
+}
+body main .recettes article .containText .ingredients {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-height: 80px;
+  /* 4 lignes de 20px chacune */
+}
+body main .recettes article .containText .ingredients h3 {
+  color: var(--Black, #1B1B1B);
+  font-family: Manrope;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+body main .recettes article .containText .ingredients span {
+  color: var(--Grey, #7A7A7A);
+  font-family: Manrope;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }

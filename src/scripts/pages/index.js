@@ -28,7 +28,6 @@ function initData() {
 
 function init() {
     var recettes = initData(); //initialistion d'un tableau de classe obj
-    console.log(recettes)
     const filtreManager = new FiltreManager(recettes);
     filtreManager.triItemsForFiltreSecondaire();
     filtreManager.renderFiltres();

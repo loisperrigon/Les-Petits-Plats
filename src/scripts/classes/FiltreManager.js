@@ -11,22 +11,43 @@ export default class FiltreManager {
         this.filtresSecondaireActif = {};
         this.itemsSuprime = [];
 
+
         this.appareilsFiltreDom = document.querySelector(".listeAppareils");
         this.ingredientsFiltreDom = document.querySelector(".listeIngredients");
         this.ustensilsFiltreDom = document.querySelector(".listeUstensiles");
+
+        this.rechercheAppareilsDOM = document.getElementById('rechercheAppareils');
+        this.rechercheUstensilesDOM = document.getElementById('rechercheUstensiles');
+        this.rechercheIngredientsDOM = document.getElementById('rechercheIngredients');
+
+
+        this.rechercheAppareilsDOM.addEventListener('input', () => {
+            this.renderFiltre(this.appareilsFiltreDom, this.rechercheAppareilsDOM, 'appareils');
+        });
+        this.rechercheUstensilesDOM.addEventListener('input', () => {
+            this.renderFiltre(this.ustensilsFiltreDom, this.rechercheUstensilesDOM, 'ustensils');
+        });
+        this.rechercheIngredientsDOM.addEventListener('input', () => {
+            this.renderFiltre(this.ingredientsFiltreDom, this.rechercheIngredientsDOM, 'ingredients');
+        });
+
+
         this.filtresActifDOM = document.querySelector(".choixFiltres");
 
         this.recettesDOM = document.querySelector(".recettes");
 
         this.recettes = recettes;
-        this.idRecettesActif = Array.from({ length: recettes.length }, (_, index) => index);
+        this.idRecetteTotalTab = Array.from({ length: recettes.length }, (_, index) => index);
+        this.idRecettesActifs = [];
         this.idRecettesDesactive = [];
+
+        this.updateIdRecettes(); //Initialise les variable  this.idRecettesActifs = [];
 
     }
 
-    getIdRecettes() {
+    updateIdRecettes() {
         const idFiltresActifs = [];
-        let idRecettesActifs = [];
+
         for (const key in this.filtresSecondaireActif) {
             this.filtresSecondaireActif[key].forEach(item => {
                 idFiltresActifs.push(item.id);
@@ -34,10 +55,10 @@ export default class FiltreManager {
         }
 
         if (idFiltresActifs.length === 0) {
-            idRecettesActifs = this.idRecettesActif;
+            this.idRecettesActifs = this.idRecetteTotalTab;
         }
         else {
-            idRecettesActifs = idFiltresActifs.reduce((communs, item, index) => {
+            this.idRecettesActifs = idFiltresActifs.reduce((communs, item, index) => {
                 if (index === 0) {
                     communs = item;
                 } else {
@@ -51,26 +72,20 @@ export default class FiltreManager {
         let actifs = []
         if (valeurChamp.length >= 3) {
 
-            idRecettesActifs.forEach(idRecette => {
-                if (this.recettes[idRecette].chaineCaractere.indexOf(valeurChamp) !== -1) {
+            this.idRecettesActifs.forEach(idRecette => {
+                if (this.recettes[idRecette].indexChaine.indexOf(valeurChamp.toLowerCase()) !== -1) {
                     actifs.push(idRecette);
                 }
             });
 
-            idRecettesActifs = actifs;
+            this.idRecettesActifs = actifs;
         }
-
-        console.log(idRecettesActifs);
-        return idRecettesActifs;
-
     }
 
 
     rechercheFiltrePrincipal() {
 
-        this.renderRecettes();
-        this.updateFiltres();
-        this.renderFiltres();
+        this.refreshPage();
 
     }
 
@@ -128,11 +143,11 @@ export default class FiltreManager {
     }
 
     updateFiltres() {
-        let idRecette = this.getIdRecettes();
+
 
         let items = this.itemsSuprime.filter(element => {
             const elementId = element.id;
-            return idRecette.some(id => elementId.includes(id));
+            return this.idRecettesActifs.some(id => elementId.includes(id));
         });
         // Mise à jour de this.itemsSuprime en excluant les éléments réintégrés
         this.itemsSuprime = this.itemsSuprime.filter(element => !items.includes(element));
@@ -150,7 +165,7 @@ export default class FiltreManager {
             // Utilisez .filter() pour obtenir un nouveau tableau avec les éléments ayant des IDs en commun
             const elementsGardes = filtre.items.filter(element => {
                 const elementId = element.id;
-                return idRecette.some(id => elementId.includes(id));
+                return this.idRecettesActifs.some(id => elementId.includes(id));
             });
             // Utilisez .filter() de manière inverse pour obtenir les éléments supprimés
             const elementsSupprimesDuFiltre = filtre.items.filter(element => !elementsGardes.includes(element));
@@ -172,37 +187,50 @@ export default class FiltreManager {
 
         for (const key in this.filtresSecondaire) {
             let DOM;
+            let DOMRecherche;
             switch (key) {
                 case ('appareils'):
                     DOM = this.appareilsFiltreDom;
+                    DOMRecherche = this.rechercheAppareilsDOM;
                     break;
                 case ('ustensils'):
                     DOM = this.ustensilsFiltreDom;
+                    DOMRecherche = this.rechercheUstensilesDOM;
                     break;
                 case ('ingredients'):
                     DOM = this.ingredientsFiltreDom;
+                    DOMRecherche = this.rechercheIngredientsDOM;
                     break;
             }
             DOM.innerHTML = "";
-            this.filtresSecondaire[key].items.forEach(item => {
-                this.renderFiltre(DOM, item, key);
-            });
+            this.renderFiltre(DOM, DOMRecherche, key);
+
+
         }
+    }
+
+    renderFiltre(DOM, DOMRecherche, key) {
+
+        DOM.innerHTML = "";
+        this.filtresSecondaire[key].items.forEach(item => {
+
+            if (item.item.toLowerCase().indexOf(DOMRecherche.value.toLowerCase()) !== -1) {
+                this.renderItem(DOM, item, key);
+            }
+        });
 
     }
 
     renderRecettes() {
-        console.log(this.filtresSecondaire);
+
         this.recettesDOM.innerHTML = "";
-        const idRecettes = this.getIdRecettes()
-        idRecettes.forEach(id => {
+        this.idRecettesActifs.forEach(id => {
             this.recettesDOM.appendChild(this.recettes[id].render);
         });
 
-
     }
 
-    renderFiltre(DOM, item, key) {
+    renderItem(DOM, item, key) {
         const li = document.createElement('li');
         li.textContent = item.item;
         DOM.appendChild(li);
@@ -251,6 +279,7 @@ export default class FiltreManager {
     }
 
     refreshPage() {
+        this.updateIdRecettes();
         this.updateFiltres();
         this.renderRecettes();
         this.renderFiltres();

@@ -137,6 +137,10 @@ body {
                     ul {
                         list-style-type: none;
                         padding: 0;
+                        max-height: 200px;
+
+                        overflow-y: auto;
+
 
                         li {
                             height: 19px;
@@ -145,12 +149,9 @@ body {
                             align-items: center;
                             cursor: pointer;
 
-
-
                             span {
                                 padding: 16px;
                             }
-
                         }
 
                         li:hover {
@@ -183,11 +184,17 @@ body {
                 height: 53px;
                 display: flex;
                 align-items: center;
+                justify-content: space-between;
                 padding-left: 18px;
                 border-radius: 10px;
 
                 span {
                     font-size: 14px;
+
+                }
+
+                div {
+                    cursor: pointer;
                 }
             }
 
@@ -199,16 +206,102 @@ body {
             grid-template-columns: 1fr 1fr 1fr;
             align-items: center;
             justify-content: center;
+            border-radius: 21px;
 
             article {
-                margin: 24px;
-                ;
+                margin: 21px;
+                border-radius: 21px;
+                height: 731px;
+                background-color: white;
 
                 img {
+                    border-radius: 21px 21px 0 0;
                     width: 100%;
                     height: 253px;
                     object-fit: cover;
                 }
+
+                .containText {
+                    box-sizing: border-box;
+                    padding: 32px;
+                    height: 478px;
+
+                    h1 {
+                        color: #000;
+                        font-family: Anton;
+                        font-size: 18px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: normal;
+                        margin-bottom: 29px;
+                    }
+
+                    h2 {
+                        color: var(--Grey, #7A7A7A);
+                        font-family: Manrope;
+                        font-size: 12px;
+                        font-style: normal;
+                        font-weight: 700;
+                        line-height: normal;
+                        letter-spacing: 1.08px;
+                        text-transform: uppercase;
+                        margin-bottom: 15px;
+                    }
+
+                    .descriptionRecette {
+                        height: 76px;
+                        overflow: hidden;
+                        margin-bottom: 32px;
+                        line-height: 20px;
+                        /* Hauteur de ligne souhaitée */
+                        max-height: 80px;
+                        /* 4 lignes de 20px chacune */
+
+                        span {
+                            color: var(--Black, #1B1B1B);
+                            font-family: Manrope;
+                            font-size: 14px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: normal;
+
+
+                        }
+                    }
+
+                    .ingredients>* {
+                        margin: 10px;
+
+                    }
+
+                    .ingredients {
+
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        max-height: 80px;
+                        /* 4 lignes de 20px chacune */
+
+                        h3 {
+                            color: var(--Black, #1B1B1B);
+                            font-family: Manrope;
+                            font-size: 14px;
+                            font-style: normal;
+                            font-weight: 500;
+                            line-height: normal;
+                        }
+
+                        span {
+                            color: var(--Grey, #7A7A7A);
+                            font-family: Manrope;
+                            font-size: 14px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: normal;
+                        }
+                    }
+                }
+
+
             }
 
         }
