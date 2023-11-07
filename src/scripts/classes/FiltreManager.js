@@ -40,15 +40,17 @@ export default class FiltreManager {
         this.recettesDOM = document.querySelector(".recettes");
 
         this.recettes = recettes;
-        this.idRecetteTotalTab = Array.from({ length: recettes.length }, (_, index) => index);
-        this.idRecettesActifs = [];
+        this.idRecettesActifs = this.initIdRecettesActifs();
         this.idRecettesDesactive = [];
 
-        this.updateIdRecettes(); //Initialise les variable  this.idRecettesActifs = [];
 
     }
 
-    updateIdRecettes() {
+    initIdRecettesActifs() {
+        return Array.from({ length: this.recettes.length }, (_, index) => index);
+    }
+
+    recherchePrincpalAndSecondaire() {
         const idFiltresActifs = [];
 
         for (const key in this.filtresSecondaireActif) {
@@ -58,25 +60,27 @@ export default class FiltreManager {
         }
 
         if (idFiltresActifs.length === 0) {
-            this.idRecettesActifs = this.idRecetteTotalTab;
+            this.idRecettesActifs = this.initIdRecettesActifs();
         }
         else {
-            this.idRecettesActifs = idFiltresActifs.reduce((communs, item, index) => {
+            this.idRecettesActifs = idFiltresActifs.reduce((commonIds, currentFilter, index) => {
                 if (index === 0) {
-                    communs = item;
+                    return currentFilter;
                 } else {
-                    communs = communs.filter(id => item.includes(id));
+                    return commonIds.filter(id => currentFilter.includes(id));
                 }
-                return communs;
             }, []);
         }
 
 
         let idrecettesactifs = []
-        if (this.FiltrePrincipalDOM.value.length >= 3) {
+        if (this.FiltrePrincipalDOM.value.length >= 0) {
 
             this.idRecettesActifs.forEach(idRecette => {
                 if (this.recettes[idRecette].indexChaine.indexOf(this.FiltrePrincipalDOM.value.toLowerCase()) !== -1) {
+                    this.recettes[idRecette].indexChaine
+                    console.log(this.recettes[idRecette].indexChaine);
+                    console.log(this.FiltrePrincipalDOM.value.toLowerCase());
                     idrecettesactifs.push(idRecette);
                 }
             });
@@ -84,8 +88,12 @@ export default class FiltreManager {
             this.idRecettesActifs = idrecettesactifs;
         }
 
-        this.textTotalRecettesDom.textContent = this.idRecettesActifs.length + " Recettes"
     }
+
+    renderTotalRecettes() {
+        this.textTotalRecettesDom.textContent = this.idRecettesActifs.length + " Recettes";
+    }
+
 
 
     addItemFiltreSecondaire(label, item, id) {
@@ -226,6 +234,8 @@ export default class FiltreManager {
             this.recettesDOM.appendChild(this.recettes[id].render);
         });
 
+        this.renderTotalRecettes();
+
     }
 
     renderItem(DOM, item, key) {
@@ -277,7 +287,7 @@ export default class FiltreManager {
     }
 
     refreshPage() {
-        this.updateIdRecettes();
+        this.recherchePrincpalAndSecondaire();
         this.updateFiltres();
         this.renderRecettes();
         this.renderFiltres();

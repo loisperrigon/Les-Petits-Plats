@@ -15,10 +15,17 @@ export default class Recette {
     }
 
     createIndexChaine() {
-        let chaineCaractere = this.name + this.servings + this.time + this.description + this.appliance + this.ustensils;
+        let chaineCaractere = this.name + " " + this.servings + " " + this.time + " " + this.description + " " + this.appliance + " " + this.ustensils;
         this.ingredients.forEach(ingredient => {
-            chaineCaractere += ingredient.ingredient + ingredient.quantity + ingredient.unit;
+            chaineCaractere += " " + ingredient.ingredient;
+            if (ingredient.quantity) {
+                chaineCaractere += " " + ingredient.quantity;
+            }
+            if (ingredient.unit) {
+                chaineCaractere += " " + ingredient.unit;
+            }
         });
+
 
         return chaineCaractere.toLowerCase();
 
