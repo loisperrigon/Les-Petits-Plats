@@ -224,6 +224,15 @@ body {
 
         }
 
+        .erreur {
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px;
+
+        }
+
         .recettes {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;

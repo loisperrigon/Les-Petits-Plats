@@ -34,10 +34,11 @@ export default class FiltreManager {
         });
 
         this.textTotalRecettesDom = document.querySelector(".textTotalRecettes");
-
         this.filtresActifDOM = document.querySelector(".choixFiltres");
-
         this.recettesDOM = document.querySelector(".recettes");
+
+        this.erreurRecherche = document.querySelector(".erreurRecherche");
+
 
         this.recettes = recettes;
         this.idRecettesActifs = this.initIdRecettesActifs();
@@ -45,56 +46,6 @@ export default class FiltreManager {
 
 
     }
-
-    initIdRecettesActifs() {
-        return Array.from({ length: this.recettes.length }, (_, index) => index);
-    }
-
-    recherchePrincpalAndSecondaire() {
-        const idFiltresActifs = [];
-
-        for (const key in this.filtresSecondaireActif) {
-            this.filtresSecondaireActif[key].forEach(item => {
-                idFiltresActifs.push(item.id);
-            });
-        }
-
-        if (idFiltresActifs.length === 0) {
-            this.idRecettesActifs = this.initIdRecettesActifs();
-        }
-        else {
-            this.idRecettesActifs = idFiltresActifs.reduce((commonIds, currentFilter, index) => {
-                if (index === 0) {
-                    return currentFilter;
-                } else {
-                    return commonIds.filter(id => currentFilter.includes(id));
-                }
-            }, []);
-        }
-
-
-        let idrecettesactifs = []
-        if (this.FiltrePrincipalDOM.value.length >= 0) {
-
-            this.idRecettesActifs.forEach(idRecette => {
-                if (this.recettes[idRecette].indexChaine.indexOf(this.FiltrePrincipalDOM.value.toLowerCase()) !== -1) {
-                    this.recettes[idRecette].indexChaine
-                    console.log(this.recettes[idRecette].indexChaine);
-                    console.log(this.FiltrePrincipalDOM.value.toLowerCase());
-                    idrecettesactifs.push(idRecette);
-                }
-            });
-
-            this.idRecettesActifs = idrecettesactifs;
-        }
-
-    }
-
-    renderTotalRecettes() {
-        this.textTotalRecettesDom.textContent = this.idRecettesActifs.length + " Recettes";
-    }
-
-
 
     addItemFiltreSecondaire(label, item, id) {
         if (!this.filtresSecondaire[label]) {
@@ -104,8 +55,6 @@ export default class FiltreManager {
         }
 
         const items = this.filtresSecondaire[label].items;
-
-
         const existingItem = items.find(existingItem => existingItem.item === item);
 
         if (existingItem) {
@@ -148,8 +97,53 @@ export default class FiltreManager {
 
     }
 
-    updateFiltres() {
 
+    initIdRecettesActifs() {
+        return Array.from({ length: this.recettes.length }, (_, index) => index);
+    }
+
+    recherchePrincpalAndSecondaire() {
+
+        //Recherche secondaire
+        const idFiltresActifs = [];
+
+        for (const key in this.filtresSecondaireActif) {
+            this.filtresSecondaireActif[key].forEach(item => {
+                idFiltresActifs.push(item.id);
+            });
+        }
+
+        if (idFiltresActifs.length === 0) {
+            this.idRecettesActifs = this.initIdRecettesActifs();
+        }
+        else {
+            this.idRecettesActifs = idFiltresActifs.reduce((commonIds, currentFilter, index) => {
+                if (index === 0) {
+                    return currentFilter;
+                } else {
+                    return commonIds.filter(id => currentFilter.includes(id));
+                }
+            }, []);
+        }
+
+
+        //recherche Principal
+        let newIdRecettesActifs = []
+        if (this.FiltrePrincipalDOM.value.length >= 3) {
+            const valueFiltrePrincipal = this.FiltrePrincipalDOM.value.toLowerCase()
+            this.idRecettesActifs.forEach(idRecette => {
+                if (this.recettes[idRecette].indexChaine.indexOf(valueFiltrePrincipal) !== -1) {
+                    this.recettes[idRecette].indexChaine
+                    newIdRecettesActifs.push(idRecette);
+                }
+            });
+
+            this.idRecettesActifs = newIdRecettesActifs;
+        }
+
+    }
+
+    updateFiltres() {
 
         let items = this.itemsSuprime.filter(element => {
             const elementId = element.id;
@@ -210,8 +204,6 @@ export default class FiltreManager {
             }
             DOM.innerHTML = "";
             this.renderFiltre(DOM, DOMRecherche, key);
-
-
         }
     }
 
@@ -230,12 +222,25 @@ export default class FiltreManager {
     renderRecettes() {
 
         this.recettesDOM.innerHTML = "";
-        this.idRecettesActifs.forEach(id => {
-            this.recettesDOM.appendChild(this.recettes[id].render);
-        });
+        if (this.idRecettesActifs.length > 0) {
+
+            this.idRecettesActifs.forEach(id => {
+                this.recettesDOM.appendChild(this.recettes[id].render);
+            });
+
+            this.erreurRecherche.textContent = "";
+        }
+        else {
+            console.log('Aucune recette ne contient ‘' + this.FiltrePrincipalDOM.value + ' ’ vous pouvez chercher «tarte aux pommes », « poisson », etc.');
+            this.erreurRecherche.textContent = 'Aucune recette ne contient ‘' + this.FiltrePrincipalDOM.value + ' ’ vous pouvez chercher «tarte aux pommes », « poisson », etc.'
+        }
 
         this.renderTotalRecettes();
 
+    }
+
+    renderTotalRecettes() {
+        this.textTotalRecettesDom.textContent = this.idRecettesActifs.length + " Recettes";
     }
 
     renderItem(DOM, item, key) {
@@ -244,14 +249,7 @@ export default class FiltreManager {
         DOM.appendChild(li);
         const self = this;
         li.addEventListener('click', function () {
-            if (!self.filtresSecondaireActif[key]) {
-                self.filtresSecondaireActif[key] = [];
-            }
-            self.filtresSecondaireActif[key].push(item);
-            const index = self.filtresSecondaire[key].items.indexOf(item); //Recherche l'index de l'element
-            if (index !== -1) {
-                self.filtresSecondaire[key].items.splice(index, 1);
-            }
+            self.addItemActif(key, item);
             const div = document.createElement('div');
             const divClose = document.createElement('div');
             const span = document.createElement('span');
@@ -265,25 +263,40 @@ export default class FiltreManager {
 
             divClose.addEventListener('click', function () {
                 // Supprimez l'élément div lorsque divClose est cliqué
-                div.remove();
-
-                if (!self.filtresSecondaire[key]) {
-                    self.filtresSecondaire[key] = {
-                        items: [],
-                    };
-                }
-                self.filtresSecondaire[key].items.push(item);
-
-                // Supprimez également l'élément de self.filtresActif[key]
-                const indexActif = self.filtresSecondaireActif[key].indexOf(item);
-                if (indexActif !== -1) {
-                    self.filtresSecondaireActif[key].splice(indexActif, 1);
-                }
+                self.removeItemActif(div, key, item)
                 self.refreshPage()
             });
 
             self.refreshPage();
         });
+    }
+
+    removeItemActif(div, key, item) {
+        div.remove();
+
+        if (!this.filtresSecondaire[key]) {
+            this.filtresSecondaire[key] = {
+                items: [],
+            };
+        }
+        this.filtresSecondaire[key].items.push(item);
+
+        // Supprimez également l'élément de self.filtresActif[key]
+        const indexActif = this.filtresSecondaireActif[key].indexOf(item);
+        if (indexActif !== -1) {
+            this.filtresSecondaireActif[key].splice(indexActif, 1);
+        }
+    }
+
+    addItemActif(key, item) {
+        if (!this.filtresSecondaireActif[key]) {
+            this.filtresSecondaireActif[key] = [];
+        }
+        this.filtresSecondaireActif[key].push(item);
+        const index = this.filtresSecondaire[key].items.indexOf(item); //Recherche l'index de l'element
+        if (index !== -1) {
+            this.filtresSecondaire[key].items.splice(index, 1);
+        }
     }
 
     refreshPage() {
