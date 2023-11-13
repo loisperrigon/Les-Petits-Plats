@@ -4,9 +4,7 @@ export default class FiltreManager {
 
         this.FiltrePrincipalDOM = document.getElementById('recherchePrincipal');
         this.FiltrePrincipalDOM.addEventListener('input', () => {
-
             this.refreshPage();
-
         });
 
         this.filtresSecondaire = {};
@@ -127,42 +125,87 @@ export default class FiltreManager {
         }
 
 
+        const numberOfRuns = 100000;
+        let totalTime = 0;
+
+        for (let i = 0; i < numberOfRuns; i++) {
+            const startTime = performance.now();
+
+            // Appel de la fonction mesurer
+            this.recherchePrincipal(this.idRecettesActifs);
+
+            // Ajoute le temps écoulé depuis le début du bloc de code au temps total
+            totalTime += performance.now() - startTime;
+        }
+
+        console.log(`Total time: ${totalTime} milliseconds sur ${numberOfRuns} runs`);
+
+        this.idRecettesActifs = this.recherchePrincipal(this.idRecettesActifs);
+
+    }
+
+    recherchePrincipal(idRecettesActifs) {
         //recherche Principal
         let newIdRecettesActifs = []
         if (this.FiltrePrincipalDOM.value.length >= 3) {
             const valueFiltrePrincipal = this.FiltrePrincipalDOM.value.toLowerCase()
             this.idRecettesActifs.forEach(idRecette => {
-                if (this.recettes[idRecette].indexChaine.indexOf(valueFiltrePrincipal) !== -1) {
-                    this.recettes[idRecette].indexChaine
+                /*
+                 if (this.recettes[idRecette].indexChaine.indexOf(valueFiltrePrincipal) !== -1) {
                     newIdRecettesActifs.push(idRecette);
                 }
+                */
+
+                if (this.customIndexOf(this.recettes[idRecette].indexChaine, valueFiltrePrincipal) !== -1) {
+                    newIdRecettesActifs.push(idRecette);
+                }
+
+
             });
 
-            this.idRecettesActifs = newIdRecettesActifs;
+            return newIdRecettesActifs;
         }
 
+        return idRecettesActifs;
     }
 
-    updateFiltres() {
+    customIndexOf(paragraphe, mot) {
+        for (let i = 0; i <= paragraphe.length - mot.length; i++) {
+            let found = true;
+            for (let j = 0; j < mot.length; j++) {
+                if (paragraphe[i + j] !== mot[j]) {
+                    found = false;
+                    break;
+                }
+            }
+            if (found) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
-        let items = this.itemsSuprime.filter(element => {
-            const elementId = element.id;
+    updateFiltresSecondaire() {
+
+        //On regarde si dans les items deja suprimme si il ont au moins une meme id que les recettes
+        let items = this.itemsSuprime.filter(item => {
+            const elementId = item.id;
             return this.idRecettesActifs.some(id => elementId.includes(id));
         });
         // Mise à jour de this.itemsSuprime en excluant les éléments réintégrés
-        this.itemsSuprime = this.itemsSuprime.filter(element => !items.includes(element));
+        this.itemsSuprime = this.itemsSuprime.filter(item => !items.includes(item));
 
-        items.forEach(element => {
-            this.filtresSecondaire[element.filtre].items.push({
-                item: element.item,
-                id: element.id,
+        items.forEach(item => {
+            this.filtresSecondaire[item.filtre].items.push({
+                item: item.item,
+                id: item.id,
             });
         });
 
         for (const key in this.filtresSecondaire) {
 
             let filtre = this.filtresSecondaire[key]
-            // Utilisez .filter() pour obtenir un nouveau tableau avec les éléments ayant des IDs en commun
+            // Utilise .filter() pour obtenir un nouveau tableau avec les éléments ayant des IDs en commun
             const elementsGardes = filtre.items.filter(element => {
                 const elementId = element.id;
                 return this.idRecettesActifs.some(id => elementId.includes(id));
@@ -176,10 +219,9 @@ export default class FiltreManager {
                 this.itemsSuprime.push(element);
             });
 
+            //initialisation des items qui respecte les conditions
             filtre.items = elementsGardes;
         };
-
-
     }
 
 
@@ -202,7 +244,6 @@ export default class FiltreManager {
                     DOMRecherche = this.rechercheIngredientsDOM;
                     break;
             }
-            DOM.innerHTML = "";
             this.renderFiltre(DOM, DOMRecherche, key);
         }
     }
@@ -301,7 +342,7 @@ export default class FiltreManager {
 
     refreshPage() {
         this.recherchePrincpalAndSecondaire();
-        this.updateFiltres();
+        this.updateFiltresSecondaire();
         this.renderRecettes();
         this.renderFiltres();
     }
