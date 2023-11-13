@@ -150,16 +150,10 @@ export default class FiltreManager {
         if (this.FiltrePrincipalDOM.value.length >= 3) {
             const valueFiltrePrincipal = this.FiltrePrincipalDOM.value.toLowerCase()
             this.idRecettesActifs.forEach(idRecette => {
-                /*
-                 if (this.recettes[idRecette].indexChaine.indexOf(valueFiltrePrincipal) !== -1) {
+
+                if (this.recettes[idRecette].indexChaine.indexOf(valueFiltrePrincipal) !== -1) {
                     newIdRecettesActifs.push(idRecette);
                 }
-                */
-
-                if (this.customIndexOf(this.recettes[idRecette].indexChaine, valueFiltrePrincipal) !== -1) {
-                    newIdRecettesActifs.push(idRecette);
-                }
-
 
             });
 
@@ -169,21 +163,6 @@ export default class FiltreManager {
         return idRecettesActifs;
     }
 
-    customIndexOf(paragraphe, mot) {
-        for (let i = 0; i <= paragraphe.length - mot.length; i++) {
-            let found = true;
-            for (let j = 0; j < mot.length; j++) {
-                if (paragraphe[i + j] !== mot[j]) {
-                    found = false;
-                    break;
-                }
-            }
-            if (found) {
-                return i;
-            }
-        }
-        return -1;
-    }
 
     updateFiltresSecondaire() {
 
