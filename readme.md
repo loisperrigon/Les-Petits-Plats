@@ -19,5 +19,5 @@ Respecter le design de la maquette (Aucune version tablette, mobile demandee) [F
 ## Informations complémentaires 
 
 * Projet n°7 : les petits plat de la formation OpenClassrooms JS React.
-* Fiche d'investigation [lien](https://github.com/loisperrigon/Les-Petits-Plats/main/Fiche+d'investigation+fonctionnalite.pdf)
+* Fiche d'investigation [lien](https://github.com/loisperrigon/Les-Petits-Plats/blob/main/Fiche%2Bd%E2%80%99investigation%2Bfonctionnalit%C3%A9.pdf)
 * code réalisé sans framework JavaScript.
